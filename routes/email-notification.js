@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-router.post('/resend', async (req, res) => {
+router.post('/send', async (req, res) => {
     const {email} = req.body
 
     if (!email) {
@@ -27,16 +27,19 @@ router.post('/resend', async (req, res) => {
         res.json({value: false, message: error.message})
     }
 })
-router.post('/send', async (req, res) => {
-    const email = '';
-    const properties = req.body.line_items[0].properties
 
-    properties.forEach((item) =>{
-        if(item.key === 'Email'){
-            email: item.value;
-        }
-    })
+router.post('/send-after-purchase', async (req, res) => {
+
     try {
+        const email = '';
+        const properties = req.body.line_items[0].properties
+
+        properties.forEach((item) =>{
+            if(item.key === 'Email'){
+                email: item.value;
+            }
+        })
+
         await transporter.sendMail(standartNotification(email))
         res.json({value: true, message: 'Message sent', body:req.body})
     } catch (error) {
