@@ -31,12 +31,12 @@ router.post('/send', async (req, res) => {
 router.post('/send-after-purchase', async (req, res) => {
 
     try {
-        const email = '';
+        let  email = '';
         const properties = req.body.line_items[0].properties
 
         properties.forEach((item) =>{
-            if(item.key === 'Email'){
-                email: item.value;
+            if(item.name === 'Email'){
+                email = item.value;
             }
         })
 
